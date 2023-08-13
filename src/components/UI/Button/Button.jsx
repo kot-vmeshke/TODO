@@ -1,7 +1,7 @@
 import './Button.css';
-const Button = ({children, active = false, onClick = null}) => {
+const Button = ({children, active = false, onClick = null, dataFilter = ''}) => {
   return (
-    <button className={`${active ? 'active' : ''} button`} onClick={onClick}>
+    <button data-filter={dataFilter} className={`${active ? 'active' : ''} button`} onClick={onClick}>
       {children}
     </button>
   )

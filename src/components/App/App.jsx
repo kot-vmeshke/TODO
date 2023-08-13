@@ -9,26 +9,9 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      todoData: [
-        {
-          label: 'Learn React',
-          important: false,
-          id: Math.round(Date.now() * Math.random()),
-          done: false,
-        },
-        {
-          label: 'Drink Coffe',
-          important: true,
-          id: Math.round(Date.now() * Math.random()),
-          done: false,
-        },
-        {
-          label: 'Learn Vue',
-          important: false,
-          id: Math.round(Date.now() * Math.random()),
-          done: false,
-        },
-      ],
+      todoData: [],
+      searchString: '',
+      filterName: '',
     };
     this.deleteItem = (id) => {
       this.setState(({ todoData }) => {
@@ -87,20 +70,55 @@ class App extends Component {
       });
     };
 
-  }
-  render() {
+    this.itemsFilter = (items, string = '', filter = '') => {
+      switch (filter) {
+        case 'search':
+          if (string.length === 0) return items;
+          return items.filter((item) =>
+            item.label.toLowerCase().includes(string.toLowerCase())
+          );
+        case 'active':
+          return items.filter((item) => !item.done);
+        case 'done':
+          return items.filter((item) => item.done);
+        case 'all':
+        default:
+          return items;
+      }
+    };
 
-        const more = [...this.state.todoData].filter(
-          (item) => !item.done
-        ).length;
-        const done = [...this.state.todoData].filter((item) => item.done).length; 
+    this.setSearchString = (string) => {
+      this.setState({
+        searchString: string,
+        filterName: 'search',
+      });
+    };
+
+    this.setFilter = (filter) => {
+      this.setState({
+        filterName: filter,
+      });
+    };
+  }
+
+  render() {
+    const { todoData, searchString, filterName } = this.state;
+
+    const more = [...this.state.todoData].filter((item) => !item.done).length;
+    const done = [...this.state.todoData].filter((item) => item.done).length;
+
+    const filteredData =
+      this.itemsFilter(todoData, searchString, filterName) || [];
 
     return (
       <div className="container mx-auto my-0 py-10 px-5 max-w-xl grid grid-cols-1 gap-8">
         <AppHeader more={more} done={done} />
-        <FilterPanel />
+        <FilterPanel
+          setSearchString={this.setSearchString}
+          setFilter={this.setFilter}
+        />
         <TodoList
-          todos={this.state.todoData}
+          todos={filteredData}
           onDeleted={this.deleteItem}
           onImportant={this.toggleImportant}
           onDone={this.toggleDone}
