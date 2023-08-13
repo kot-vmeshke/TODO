@@ -1,0 +1,6 @@
+.button {
+  @apply flex items-center justify-center px-6 py-4 border-2 border-violet-200 bg-violet-200 text-violet-950 hover:text-white hover:bg-violet-500 transition-all duration-500;
+}
+.active {
+  @apply text-white bg-violet-600;
+}

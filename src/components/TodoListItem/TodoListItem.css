@@ -1,0 +1,24 @@
+.custom-list-item {
+  @apply font-semibold first-letter:uppercase text-lg text-violet-950 mr-auto cursor-pointer
+}
+.custom-list-item.done {
+  text-decoration: line-through;
+}
+.custom-list-item.important {
+  @apply text-violet-500
+}
+.btn-action {
+  @apply inline-flex items-center justify-center ml-3 w-10 h-10
+}
+.btn-action svg {
+  display: block;
+}
+.del svg {
+  stroke: red;
+}
+.star svg {
+  stroke: orange;
+}
+.check svg {
+  stroke: green;
+}
